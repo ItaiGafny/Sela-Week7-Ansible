@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (sudo apt update)
+    package:
+      update_cache: yes
