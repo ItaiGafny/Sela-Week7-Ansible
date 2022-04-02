@@ -50,7 +50,7 @@
       job: "~/weight-tracker/run_node.sh"
 
 
-- hosts: 10.0.0.4
+- hosts: 10.0.0.7
   tasks:
 
   - name: init db (only one machine)
