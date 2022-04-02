@@ -1,9 +1,67 @@
 ---
-
 - hosts: all
   become: true
-  pre_tasks:
+  tasks:
 
   - name: install updates (sudo apt update)
     package:
       update_cache: yes
+
+  - name: install node
+    shell: |
+      curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && sudo apt-get install -y nodejs
+
+
+- hosts: all
+  tasks:
+
+  - name: install npm package (all at once)
+    shell: |
+      cd ~/weight-tracker/; npm install @hapi/hapi@19 @hapi/bell@12 @hapi/boom@9 @hapi/cookie@11 @hapi/inert@6 @hapi/joi@17 @hapi/vision@6 dotenv@8 ejs@3 postgres@1
+
+  - name: install node mon
+    shell: |
+      cd ~/weight-tracker/; npm install --save-dev nodemon@2
+
+  - name: clone Weight tracker from git 
+    git:
+       repo: https://github.com/ItaiGafny/okta-nodejs-postgres-weight-tracker-example.git
+       dest: ~/weight-tracker/
+       clone: yes
+       update: yes
+
+  - name: copy environment file
+    copy: 
+      src: staging.env
+      dest: ~/weight-tracker/.env
+
+  - name: copy script to run node
+    tags: run_node
+    copy:
+      src: run_node.sh
+      dest:  ~/weight-tracker/run_node.sh
+      mode: u+x
+
+  - name: Create an entry like "@reboot run_dode.sh"
+    tags: cron
+    cron:
+      name: "run node reboot"
+      special_time: reboot
+      job: "~/weight-tracker/run_node.sh"
+
+
+- hosts: 10.0.0.4
+  tasks:
+
+  - name: init db (only one machine)
+    command: npm run initdb
+    tags: initdb
+    args:
+      chdir: ~/weight-tracker/
+
+
+- hosts: all
+  become: true
+  tasks:
+  - name: reboot all machines with updated env file
+    reboot:
