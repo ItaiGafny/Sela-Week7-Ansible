@@ -15,25 +15,10 @@
 - hosts: all
   tasks:
 
-  - name: clone Weight tracker from git 
-    git:
-       repo: https://github.com/ItaiGafny/okta-nodejs-postgres-weight-tracker-example.git
-       dest: ~/weight-tracker/
-       clone: yes
-       update: no
-
   - name: copy environment file
     copy: 
       src: .env
       dest: ~/weight-tracker/.env
-
-  - name: install npm package (all at once)
-    shell: |
-      cd ~/weight-tracker/; npm install @hapi/hapi@19 @hapi/bell@12 @hapi/boom@9 @hapi/cookie@11 @hapi/inert@6 @hapi/joi@17 @hapi/vision@6 dotenv@8 ejs@3 postgres@1
-
-  - name: install node mon
-    shell: |
-      cd ~/weight-tracker/; npm install --save-dev nodemon@2
 
   - name: copy script to run node
     tags: run_node
