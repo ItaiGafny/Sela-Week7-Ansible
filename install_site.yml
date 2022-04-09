@@ -17,8 +17,8 @@
 
   - name: copy environment file
     copy: 
-      src: .env
-      dest: ~/weight-tracker/.env
+      src: app
+      dest: ~/weight-tracker/
 
   - name: copy script to run node
     tags: run_node
