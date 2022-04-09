@@ -1,4 +1,4 @@
-# Sela-Week6-Ansible
+# Sela-Week7-Ansible
 ## Ansible guide lines
 ### Installation
 1. Install ansible on each of the ansible machines (2 different submets with no connectioin between them):
