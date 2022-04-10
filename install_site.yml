@@ -20,7 +20,7 @@
   tasks:
   - name: Extract app files
     unarchive:
-      src: app/{{ build_id }}.zip
+      src: app/"{{ build_id }}".zip
       dest: ~/weight-tracker/
     
 #   - name: copy environment file
