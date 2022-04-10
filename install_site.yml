@@ -20,7 +20,7 @@
   tasks:
   - name: Extract app files
     unarchive:
-      src: app/*.zip
+      src: app/{{ build_id }}.zip
       dest: ~/weight-tracker/
     
 #   - name: copy environment file
@@ -43,7 +43,7 @@
       job: "~/weight-tracker/run_node.sh"
 
 
-- hosts: 10.0.0.7
+- hosts: {{ init_host_ip }}
   tasks:
 
   - name: init db (only one machine)
