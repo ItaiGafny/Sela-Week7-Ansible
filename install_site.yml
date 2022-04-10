@@ -18,10 +18,14 @@
 
 - hosts: all
   tasks:
-  - name: Extract app files
-    unarchive:
-      src: app/{{ build_id }}.zip
+  - name: copy environment file
+    copy: 
+      src: app/.
       dest: ~/weight-tracker/
+# - name: Extract app files
+#     unarchive:
+#       src: app/{{ build_id }}.zip
+#       dest: ~/weight-tracker/
     
   - name: install node mon #if you buld on pc it won't work without it
     shell: |
