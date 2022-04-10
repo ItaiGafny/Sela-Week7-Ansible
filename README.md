@@ -29,5 +29,5 @@
 
 1. Check connection to the servers with ping: ansible webservers -m ping. Then check all is ok with all servers
 1. Copy run_node and staging.env / production.env to the ansible files directory
-1. Run ansible-playbook install_site.yml --ask-become-pass
+1. Run ansible-playbook install_site.yml 
 
