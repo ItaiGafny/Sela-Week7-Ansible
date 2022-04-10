@@ -25,9 +25,9 @@
 #       dest: ~/weight-tracker/
 
   - name: Extract app files
-      unarchive:
-        src: app/{{ build_id }}.zip
-        dest: ~/weight-tracker/
+    unarchive:
+      src: app/{{ build_id }}.zip
+      dest: ~/weight-tracker/
     
   - name: install node mon #if you buld on pc it won't work without it
     shell: |
