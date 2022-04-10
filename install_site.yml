@@ -14,11 +14,15 @@
 
 - hosts: all
   tasks:
-
-  - name: copy environment file
-    copy: 
-      src: app/.
+  - name: Extract foo.tgz into /var/lib/foo
+    unarchive:
+      src: app/
       dest: ~/weight-tracker/
+    
+#   - name: copy environment file
+#     copy: 
+#       src: app/.
+#       dest: ~/weight-tracker/
 
   - name: copy script to run node
     tags: run_node
