@@ -43,7 +43,7 @@
       job: "~/weight-tracker/run_node.sh"
 
 
-- hosts: {{ init_host_ip }}
+- hosts: "{{ init_host_ip }}"
   tasks:
 
   - name: init db (only one machine)
