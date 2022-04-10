@@ -14,9 +14,9 @@
 
 - hosts: all
   tasks:
-  - name: Extract foo.tgz into /var/lib/foo
+  - name: Extract app files
     unarchive:
-      src: app/
+      src: app/*.zip
       dest: ~/weight-tracker/
     
 #   - name: copy environment file
