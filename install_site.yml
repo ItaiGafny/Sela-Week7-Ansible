@@ -58,7 +58,6 @@
   tasks:
 
   - name: init db (only one machine)
-      when: "{{ init_db }}" == "yes"
     command: npm run initdb
     tags: initdb
     args:
