@@ -62,6 +62,8 @@
     tags: initdb
     args:
       chdir: ~/weight-tracker/
+    when: "{{ init_db }}" == "yes"
+    
 
 
 - hosts: all
