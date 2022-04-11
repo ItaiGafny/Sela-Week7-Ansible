@@ -13,22 +13,4 @@
 1. Copy the ssh key to all web servers
   - ssh-copy-id -i /home/azureuser/.ssh/ansible.pub x.x.x.x
 ### Configuration
-1. Create your working dir (for example Sela-Week6-Ansible) and change dir to that
-1. Set the ansible config gile to set your inventory hosts file and ssh key you just created
-    - Edit ansible.cfg
-	- [defaults]
-        - inventory = inventory
-        - private_key_file = ~/.ssh/{your ssh private key file}
-1. Set your inventory file with the IP address of the VMs of the relevant envirnment
-```
-    [webservers]
-    x.x.x.x
-    x.x.x.x
-    x.x.x.x
-    x.x.x.x
-```
-
-1. Check connection to the servers with ping: ansible webservers -m ping. Then check all is ok with all servers
-1. Copy run_node and staging.env / production.env to the ansible files directory
-1. Run ansible-playbook install_site.yml 
-
+The Ansible configuration (hosts file, inventory, etc.) is done using the pipeline.
