@@ -63,7 +63,7 @@
     tags: initdb
     args:
       chdir: ~/weight-tracker/
-    when: "{{ init_db }}" == "yes"
+    when: init_db == "yes"
     
 
 
