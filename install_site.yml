@@ -19,7 +19,12 @@
 - hosts: all
   tasks:
 
-  - name: Create a directory if it does not exist
+  - name: Delete app directory
+    file:
+      state: absent
+      path: ~/weight-tracker  
+          
+  - name: Create app directory
     file:
       path:  ~/weight-tracker/
       state: directory
