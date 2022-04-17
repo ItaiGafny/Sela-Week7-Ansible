@@ -7,15 +7,6 @@
     package:
       update_cache: yes
 
-  - name: install unzip
-    package:
-      name: unzip
-
-  - name: install node
-    shell: |
-      curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && sudo apt-get install -y nodejs
-
-
 - hosts: all
   tasks:
 
@@ -30,44 +21,64 @@
       state: directory
       mode: '0755'
     
-  - name: Extract app files
-    unarchive:
-      src: app/{{ build_id }}.zip
-      dest: ~/weight-tracker/
-    
-  - name: install node mon #if you buld on pc it won't work without it
-    shell: |
-      cd ~/weight-tracker/; npm install --save-dev nodemon@2
-
-  - name: copy script to run node
-    tags: run_node
-    copy:
-      src: run_node.sh
-      dest:  ~/weight-tracker/run_node.sh
-      mode: u+x
-
-  - name: Create an entry like "@reboot run_dode.sh"
-    tags: cron
-    cron:
-      name: "run node reboot"
-      special_time: reboot
-      job: "~/weight-tracker/run_node.sh"
-
-
-- hosts: "{{ init_host_ip }}"
-  tasks:
-
-  - name: init db (only one machine)
-    command: npm run initdb
-    tags: initdb
-    args:
-      chdir: ~/weight-tracker/
-    when: init_db == "yes"
-    
-
-
 - hosts: all
   become: true
+  vars:
+    default_container_name: weighttracker
+    default_container_image: weighttracker.azurecr.io/weighttracker:{{ build_id }}
+    default_container_command: run --name {{ default_container_name }} -p8080:8080 -v:volume_to_the_.env_file
+
   tasks:
-  - name: reboot all machines with updated env file
-    reboot:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+    - name: Docker login
+      shell: |
+        docker login weighttracker.azurecr.io -u {{ Service_principal_ID }} -p {{ Service_principal_password }}
+
+    - name: Pull default Docker image
+      community.docker.docker_image:
+        name: "{{ default_container_image }}"
+        source: pull
+
+    - name: Create default containers
+      community.docker.docker_container:
+        name: "{{ default_container_name }}{{ item }}"
+        image: "{{ default_container_image }}"
+        command: "{{ default_container_command }}"
+        state: present
