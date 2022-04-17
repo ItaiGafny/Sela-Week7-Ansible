@@ -59,7 +59,14 @@
     - name: Install Docker Module for Python
       pip:
         name: docker
-    - name: Docker login
+        
+    - name: Set docker to run without sudo
+      shell: |
+        sudo groupadd docker
+        sudo usermod -aG docker azureuser
+        sudo newgrp docker
+        
+    - name: Docker login to ACR
       shell: |
         docker login weighttracker.azurecr.io -u {{ Service_principal_ID }} -p {{ Service_principal_password }}
 
