@@ -1,13 +1,5 @@
 ---
 - hosts: all
-  become: true
-  tasks:
-
-  - name: install updates (sudo apt update)
-    package:
-      update_cache: yes
-
-- hosts: all
   tasks:
 
   - name: Delete app directory
