@@ -4,7 +4,6 @@
 1. Install ansible on each of the ansible machines (2 different submets with no connectioin between them):
     - sudo apt update
     - sudo apt install ansible
-    - sudo apt-get install docker
 1. Create sshkey for ansible and copy to all web servers, or ansible will not be able to connect to them
   - ssh-keygen -t ed25519 -C "ansible"
   - Save it as /home/azureuser/.ssh/ansible in your .ssh directory 
