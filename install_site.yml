@@ -62,9 +62,9 @@
         
     - name: Set docker to run without sudo
       shell: |
-        sudo groupadd docker
-        sudo usermod -aG docker azureuser
-        sudo newgrp docker
+        groupadd docker
+        usermod -aG docker azureuser
+        newgrp docker
         
     - name: Docker login to ACR
       shell: |
