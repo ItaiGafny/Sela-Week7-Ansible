@@ -106,8 +106,8 @@
   tasks:
 
   - name: init db (only one machine)
+        when: "{{ init_db }}" == "yes"
     tags: initdb
     shell: |
       containers=$(docker ps -q)
       docker exec -d $containers npm run initdb
-        when: "{{ init_db }}" == "yes"
