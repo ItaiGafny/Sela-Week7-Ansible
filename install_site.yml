@@ -90,9 +90,12 @@
         name: "{{ default_container_image }}"
         source: pull
 
-    - name: Create weight tracker container
-      docker_container:
-        name: "{{ default_container_name }}"
-        image: "{{ default_container_image }}"
-        command: "{{ default_container_command }}"
-        state: present
+    - name: Start the container
+      shell: |
+        run --name {{ default_container_name }} -p8080:8080 -d --restart unless-stopped -v:${PWD}/.env:/home/app/.env
+#     - name: Create weight tracker container
+#       docker_container:
+#         name: "{{ default_container_name }}"
+#         image: "{{ default_container_image }}"
+#         command: "{{ default_container_command }}"
+#         state: present
