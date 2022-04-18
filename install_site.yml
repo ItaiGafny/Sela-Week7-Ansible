@@ -18,7 +18,7 @@
   vars:
     default_container_name: weighttracker
     default_container_image: weighttracker.azurecr.io/weighttracker:{{ build_id }}
-    default_container_command: run --name {{ default_container_name }} -p8080:8080 -d --restart unless-stopped -v:volume_to_the_.env_file
+    default_container_command: run --name {{ default_container_name }} -p8080:8080 -d --restart unless-stopped -v:${PWD}/.env:/home/app/.env
 
   tasks:
     - name: Install aptitude
