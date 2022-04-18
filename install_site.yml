@@ -102,8 +102,12 @@
       shell: |
         docker run -p8080:8080 -d --restart unless-stopped -v /home/azureuser/weight-tracker/.env:/home/app/.env {{ default_container_image }}
 
-    - name: Run initdb
-      shell: |
-        containers=$(docker ps -q)
-        docker exec -d $containers npm run initdb
-        
+- hosts: "{{ init_host_ip }}"
+  tasks:
+
+  - name: init db (only one machine)
+    tags: initdb
+    shell: |
+      containers=$(docker ps -q)
+      docker exec -d $containers npm run initdb
+        when: "{{ init_db }}" == "yes"
