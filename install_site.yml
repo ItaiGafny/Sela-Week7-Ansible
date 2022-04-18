@@ -12,6 +12,11 @@
       path:  ~/weight-tracker/
       state: directory
       mode: '0755'
+
+  - name: copy script to run node
+    copy:
+      src: .env
+      dest:  ~/weight-tracker/.env
     
 - hosts: all
   become: true
