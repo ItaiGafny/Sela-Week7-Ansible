@@ -92,7 +92,7 @@
 
     - name: Start the container
       shell: |
-        run --name {{ default_container_name }} -p8080:8080 -d --restart unless-stopped -v:${PWD}/.env:/home/app/.env
+        docker run --name {{ default_container_name }} -p8080:8080 -d --restart unless-stopped -v:${PWD}/.env:/home/app/.env {{ default_container_image }}
 #     - name: Create weight tracker container
 #       docker_container:
 #         name: "{{ default_container_name }}"
