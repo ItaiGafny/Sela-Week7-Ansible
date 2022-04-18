@@ -23,7 +23,7 @@
   vars:
     default_container_name: weighttracker
     default_container_image: weighttracker.azurecr.io/weighttracker:{{ build_id }}
-    default_container_command: run --name {{ default_container_name }} -p8080:8080 -d --restart unless-stopped -v:${PWD}/.env:/home/app/.env
+    default_container_command: run --name {{ default_container_name }} -p8080:8080 -d --restart unless-stopped -v: ${PWD}/.env:/home/app/.env
 
   tasks:
     - name: Install aptitude
@@ -90,12 +90,11 @@
         name: "{{ default_container_image }}"
         source: pull
 
+    #remove previous containers that might have the ports bindings 
+    - name: Kill any old container
+      shell: |
+        docker kill $(docker ps -q)
+    
     - name: Start the container
       shell: |
-        docker run -p8080:8080 -d --restart unless-stopped -v:${PWD}/.env:/home/app/.env {{ default_container_image }}
-#     - name: Create weight tracker container
-#       docker_container:
-#         name: "{{ default_container_name }}"
-#         image: "{{ default_container_image }}"
-#         command: "{{ default_container_command }}"
-#         state: present
+        docker run -p8080:8080 -d --restart unless-stopped -v: ${PWD}/.env:/home/app/.env {{ default_container_image }}
