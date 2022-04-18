@@ -66,11 +66,10 @@
         name: docker
 
     #Set docker to run without sudo
-    - name: Create docker group
-      become: true
-      shell: groupadd docker
-      args:
-          executable: /bin/bash
+    - name: Ensure docker exists
+      group:
+        name: docker
+        state: present
 
     - name: Add current user to docker group
       become: true
