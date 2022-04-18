@@ -100,4 +100,4 @@
     
     - name: Start the container
       shell: |
-        docker run -p8080:8080 -d --restart unless-stopped -v $PWD/.env:/home/app/.env {{ default_container_image }}
+        docker run -p8080:8080 -d --restart unless-stopped -v /home/azureuser/weight-tracker/.env:/home/app/.env {{ default_container_image }}
