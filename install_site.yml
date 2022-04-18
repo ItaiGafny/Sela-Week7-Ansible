@@ -92,7 +92,11 @@
     #remove previous containers that might have the ports bindings 
     - name: Kill any old container
       shell: |
-        c=$(docker ps -q) && [[ $c ]] && docker kill $c
+        #c=$(docker ps -q) && [[ $c ]] && docker kill $c
+        containers=$(docker ps -q)
+        if [ ! -z $containers ]; then
+          docker kill $containers;
+        fi
     
     - name: Start the container
       shell: |
