@@ -75,8 +75,7 @@
         append: yes
 
     - name: reset connection so sudo changes will apply
-      ansible.builtin.meta:
-                reset_connection  
+      meta: reset_connection  
                 
     - name: Docker login to ACR
       shell: |
